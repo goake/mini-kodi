@@ -128,21 +128,20 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   ```
   sudo killall lightdm
   ```
-  
+## Install Chrome
+  ```
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+  sudo apt-get update 
+  sudo apt-get install google-chrome-stable
+  ```
 ## Netflix Addon
 
 - Install pycryptodomex
   ```
   sudo apt-get install python-pip
-  pip install pycryptodome      ### Do I need this?
   pip install pycryptodomex    
-  ```
-- Use the following [gist](https://gist.github.com/ruario/3c873d43eb20553d5014bd4d29fe37f1) to install latest widevine
-  ```
-  chmod +x latest-widevine.sh
-  bash latest-widevine.sh
-  ```
-  
+  ```  
 - Install Kodi inputstream-adaptive and copy libwidevinecdm.so to Kodi installation directory
   ```
   sudo apt-get install kodi-inputstream-adaptive
