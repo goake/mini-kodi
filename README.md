@@ -8,9 +8,7 @@ The Ubuntu-Desktop distribution is just too bloated for a "setup-once and forget
 ## Install a Minimal Ubuntu Dist.
 The goal is to install only what's absolutely necessary for kodi operation. 
 
-[Ubuntu MinimalCD](https://help.ubuntu.com/community/Installation/MinimalCD) was chosen initially as it allows us to specify packages or package groups manually during installation but it doesn't support EFI out of the box and requires an active internet connection during installation as the CD doesn't contain any.
-
-[Ubuntu Server](https://www.ubuntu.com/download/server) seemed like the next logical choice. It has very minimal defaults, this should allow us to only add the packages we need.
+[Ubuntu Server](https://www.ubuntu.com/download/server) It has very minimal defaults, this should allow us to only add the packages we need.
 
 ### 1. Download ISO
     
@@ -21,15 +19,14 @@ Note: Chose the LTS version for longest lifetime.
     
 ### 2. Boot from ISO
 
-Burn the ISO to a DVD or use a tool like [UNetBootIn](https://unetbootin.github.io/) or [Rufus](https://rufus.akeo.ie/) to create a boot USB.
+Burn the ISO to a DVD or use a tool like  [UNetBootIn](https://unetbootin.github.io/) or [Rufus](https://rufus.akeo.ie/) to create a boot USB
     
 ### 3. Go through the installation
 
   - Select `Install Ubuntu Server`
   - Select Language Option(s)
-  - Assign a hostname
-
-    Note: Something logical (kodi, media-pc, etc...) that doesn't conflic with existing hosts on LAN.
+  
+  - Assign a hostname:  xbmc
 
   - Select Ubuntu Mirror Options (ex. Location/Proxy)
 
@@ -62,12 +59,33 @@ Burn the ISO to a DVD or use a tool like [UNetBootIn](https://unetbootin.github.
       - `Standard System Utilities`
       - `OpenSSH Server`
 
-## Install Kodi
-Now that the OS is installed it's time to install everything else we need.
+## Get wireless working
 
-- Log in as the user created earlier.
-  
-- Update apt and initiate an upgrade 
+  - Identify card name
+    ```
+    iwconfig
+    ```
+
+  - Scan for networks
+    ```
+    sudo iwlist wlp5s0 s
+    ```
+  - Configure to start automatically
+    ```
+    sudo nano -w /etc/network/interfaces
+
+    auto wlp5s0
+    iface wlp5s0 inet dhcp
+    wpa-ssid   MYNETWORK
+    wpa-psk     MYKEY
+    ```
+  - Connect via Putty. Get IP Address:
+    ```
+    ip addr show
+    ```
+
+## Install Kodi
+Now that the OS is installed it's time to install everything else we need.- Update apt and initiate an upgrade 
   ```
   sudo apt update && sudo apt upgrade
   ```
@@ -78,9 +96,10 @@ Now that the OS is installed it's time to install everything else we need.
   sudo tasksel install xubuntu-core
   ```
 
-- Add Kodi PPA Repository
+- Add Kodi PPA Repository - select one of the following:
   ```
   sudo add-apt-repository ppa:team-xbmc/ppa
+  sudo add-apt-repository ppa:team-xbmc/xbmc-nightly
   ```
   
 - Update apt and install kodi
@@ -92,6 +111,8 @@ Now that the OS is installed it's time to install everything else we need.
   
   Create file `/etc/lightdm/lightdm.conf.d/kodi.conf`
   ```
+  sudo nano -w /etc/lightdm/lightdm.conf.d/kodi.conf
+  
   [Seat:*]
   autologin-user=kodi
   autologin-user-timeout=0
@@ -101,27 +122,51 @@ Now that the OS is installed it's time to install everything else we need.
   
 - Test it by launching lightdm
   ```
-  sudo systemctl start ligthdm
+  sudo systemctl start lightdm
   ```
   If it has already started, test it by killing lightdm, it should restart with Kodi
   ```
   sudo killall lightdm
   ```
+  
+## Netflix Addon
 
-## Install NVidia Driver
-The test machine i'm using is a [Zotac ID40+](https://www.zotac.com/us/product/mini_pcs/id40-plus) with an NVidia ION GT218 chipset.
-
-I checked the NVidia site for the latest available driver release and it indicated **340.102**.
-
-- Add the graphics drivers PPA
+- Install pycryptodomex
   ```
-  sudo add-apt-repository ppa:graphics-drivers/ppa
+  sudo apt-get install python-pip
+  pip install pycryptodome      ### Do I need this?
+  pip install pycryptodomex    
+  ```
+- Use the following [gist](https://gist.github.com/ruario/3c873d43eb20553d5014bd4d29fe37f1) to install latest widevine
+  ```
+  chmod +x latest-widevine.sh
+  bash latest-widevine.sh
   ```
   
-- Install the recommended version
+- Install Kodi inputstream-adaptive and copy libwidevinecdm.so to Kodi installation directory
   ```
-  sudo apt update && sudo apt install nvidia-340 vdpauinfo
+  sudo apt-get install kodi-inputstream-adaptive
+  mkdir /home/$USER/.kodi/cdm/
+  cp /opt/google/chrome/libwidevinecdm.so /home/$USER/.kodi/cdm/
   ```
+- Enable adaptive plugin in Add-Ons > My Add-Ons > VideoPlayer InputStream > InputStream Adaptive
+
+- Allow Unknown SOurces:
+  Settings > System > Add-ons > Unknoiwn sources
+
+- Add Repository from [here](https://github.com/kodinerds/repo/raw/master/repository.netflix/repository.netflix-1.0.1.zip)
+  > Add-ons > Add-on browser > Install from zip file 
+  
+- Install Add-on
+  > Add-ons > Add-on browser > Install from repository > Netflix Addon Repository
+  
+## OpenVPN
+
+- Install openvpn
+  ```
+  sudo apt-get install network-manager-openvpn-gnome
+  sudo apt-get install openvpn network-manager-openvpn network-manager-openvpn-gnome network-manager-vpnc
+  
 
 ## Configure XBOX DVD Kit Remote
 I have an old XBOX DVD kit receiver that I like using. It's getting complicated to keep it working as it seems lirc dropped support for it. 
