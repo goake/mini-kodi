@@ -161,10 +161,15 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   
 ## OpenVPN
 
+- Add the Network Manager Icon and stuff
+  ```
+  sudo apt-get install indicator-applet indicator-network
+  ```
 - Install openvpn
   ```
   sudo apt-get install network-manager-openvpn-gnome
   sudo apt-get install openvpn network-manager-openvpn network-manager-openvpn-gnome network-manager-vpnc
+  ```
   
 
 ## Configure XBOX DVD Kit Remote
