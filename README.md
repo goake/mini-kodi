@@ -168,24 +168,73 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   Ubuntu 17.10 remote doesnt work straight off
   ```
   sudo apt-get install ir-keytable
+  ```
+  Some usefull commands:
+  ```
+  sudo ir-keytable -t    # Test remote
+  sudo ir-keytable       # Provides information about remote
+  ir-keytable -t -d /dev/input/event4   #Similar to the 'Test Remote' but use information gained from above command
   
+  ```
+  Copy existing keymap, and edit that:
+  ```
   sudo cp /lib/udev/rc_keymaps/rc6_mce /etc/rc_keymaps/my_rc6_mce
   sudo nano /etc/rc_keymaps/my_rc6_mce
   ```
+  
+  Change these mappings:
+  
+  KEY_0 # was KEY_NUMERIC_0 
+  KEY_1 # was KEY_NUMERIC_1 
+  KEY_2 # was KEY_NUMERIC_2 
+  KEY_3 # was KEY_NUMERIC_3 
+  KEY_4 # was KEY_NUMERIC_4 
+  KEY_5 # was KEY_NUMERIC_5 
+  KEY_6 # was KEY_NUMERIC_6 
+  KEY_7 # was KEY_NUMERIC_7 
+  KEY_8 # was KEY_NUMERIC_8 
+  KEY_9 # was KEY_NUMERIC_9 
+  KEY_BACKSPACE # was KEY_DELETE 
+  KEY_M # was KEY_MEDIA 
+  KEY_F9 # was KEY_MUTE 
+  KEY_I # was KEY_INFO 
+  KEY_F11 # was KEY_VOLUMEUP 
+  KEY_F10 # was KEY_VOLUMEDOWN 
+  KEY_UP # was KEY_CHANNELUP 
+  KEY_DOWN # was KEY_CHANNELDOWN 
+  KEY_RIGHT # was KEY_FASTFORWARD 
+  KEY_LEFT # was KEY_REWIND 
+  KEY_P # was KEY_PLAY 
+  KEY_P # was KEY_PAUSE 
+  KEY_SPACE # was KEY_STOP 
+  KEY_END # was KEY_NEXT 
+  KEY_HOME # was KEY_PREVIOUS 
+  KEY_ENTER # was KEY_OK 
+  KEY_ESC # was KEY_EXIT 
+  KEY_S # was KEY_EPG 
+  KEY_P # was KEY_PLAYPAUSE 
+  KEY_P # was KEY_PLAYPAUSE 
+
+  
   Now that we have a keymap file, we want our infra-red receiver device to use it:-
   ```
   sudo ir-keytable -c
   sudo ir-keytable -p LIRC,RC6 -w /etc/rc_keymaps/my_rc6_mce
   ```
-  To make the changes work after reboot
+  Test above. Then to make the changes work after reboot:
   ```
   sudo nano /etc/rc_maps.cfg
   ```
-  add:
+  add at the top of the list:
   ```
-  mceusb rc-rc6-mce my_rc6_mce
+  *      rc-rc6-mce               my_rc6_mce
+  ```
+  and add # to the line:
+  ```
+   *     rc-rc6-mce               rc6_mce 
   ```
   reboot and test
+
 ## OpenVPN
 
 - Add the Network Manager Icon and stuff
@@ -199,96 +248,7 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   ```
   
 
-## Configure XBOX DVD Kit Remote
-I have an old XBOX DVD kit receiver that I like using. It's getting complicated to keep it working as it seems lirc dropped support for it. 
-If you've got a different remote/receiver check the [Kodi wiki](http://kodi.wiki/view/HOW-TO:Set_up_LIRC) for setup instructions.
 
-- Install useful stuff
-  ```
-  sudo apt install git vim-nox
-  ```
-
-- Clone this repo to user home
-  ```
-  git clone https://github.com/OnceUponALoop/mini-kodi.git $HOME/mini-kodi
-  ```
-
-- Copy lirc source
-  Keeping it in `/usr/local/src` since we'll need to keep coming back to it on kernel updates.
-  ```
-  sudo cp -r /$HOME/mini-kodi/lirc-0.9.0 /usr/local/src
-  ```
-
-- Set the directory permissions to allow your non-root user access
-  ``` bash
-  sudo chown -R $(id -un):$(id -gn) /usr/local/src/lirc-0.9.0
-  ```
-
-- Install required dependencies for building
-  ```
-  sudo apt install -y lirc dialog automake autoconf libtool
-  ```
-  When prompted for the lirc dpkg setup just choose `None/None`
-  
-- Prepare build
-  ```
-  cd /usr/local/src/lirc-0.9.0
-  ./autogen.sh
-  ./configure --with-driver=xbox
-  ```
-
-- Make and install
-  ```
-  cd /usr/local/src/lirc-0.9.0/drivers/lirc_xbox
-  make
-  sudo make install
-  ```
-  
-- Copy the configuration files
-  ```
-  sudo cp $HOME/mini-kodi/config-files/*.conf /etc/lirc/
-  ```
-  
-- Copy the kernel post-install script
-  This script will rebuild the lirc_xbox module when a kernel is updated
-  ```
-  sudo cp $HOME/mini-kodi/config-files/lirc-module-rebuild /etc/kernel/postinst.d
-  sudo chmod 755 /etc/kernel/postinst.d/lirc-module-rebuild
-  ```
-
-- (Optional) Test it by reinstalling the current kernel
-  ```
-  sudo apt install --reinstall linux-image-$(uname -r)
-  ```
-  
-- Restart lirc & kodi to test functionality
-  ```
-  sudo udevadm trigger
-  sudo systemctl restart lirc
-  killall -HUP kodi.bin
-  ```
-
-## Configure IRExec
-We can use the lirc irexec binary in daemon mode to set up remote control combo actions.
-
-In my example i'm using it to restart kodi and remount the network shares, it comes in handy as a quick restart if kodi hangs.
-
-- Create service file `/etc/systemd/system/irexec-root.service` 
-  ```
-  sudo cp $HOME/mini-kodi/config-files/irexec-root.service /etc/systemd/system/
-  ```
-  
-- Create the configuration file that defines the combo and actions
-  In this example i'm using jennys number `867-5309` to restart kodi and remount the drives
-  ```
-  sudo cp $HOME/mini-kodi/config-files/lircrc.conf /etc/lirc/
-  ```
-  
-- Enable and start the irexec service
-  ```
-  sudo systemctl enable irexec-root.service
-  sudo systemctl start irexec-root.service
-  ```
 
 ## Install SABNzbd
 Reference: [SABnzbd Documentation](https://sabnzbd.org/wiki/installation/install-ubuntu-repo)
