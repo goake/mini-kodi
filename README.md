@@ -60,7 +60,12 @@ Burn the ISO to a DVD or use a tool like  [UNetBootIn](https://unetbootin.github
       - `OpenSSH Server`
 
 ## Get wireless working
-
+    its all NetPlan now!
+    
+    '''
+    sudo nano /etc/netplan/01-netcfg.yaml
+    '''
+    
   - Identify card name
     ```
     iwconfig
@@ -158,7 +163,29 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   
 - Install Add-on
   > Add-ons > Add-on browser > Install from repository > Netflix Addon Repository
+
+## Remote Control
+  Ubuntu 17.10 remote doesnt work straight off
+  ```
+  sudo apt-get install ir-keytable
   
+  sudo cp /lib/udev/rc_keymaps/rc6_mce /etc/rc_keymaps/my_rc6_mce
+  sudo nano /etc/rc_keymaps/my_rc6_mce
+  ```
+  Now that we have a keymap file, we want our infra-red receiver device to use it:-
+  ```
+  sudo ir-keytable -c
+  sudo ir-keytable -p LIRC,RC6 -w /etc/rc_keymaps/my_rc6_mce
+  ```
+  To make the changes work after reboot
+  ```
+  sudo nano /etc/rc_maps.cfg
+  ```
+  add:
+  ```
+  mceusb rc-rc6-mce my_rc6_mce
+  ```
+  reboot and test
 ## OpenVPN
 
 - Add the Network Manager Icon and stuff
