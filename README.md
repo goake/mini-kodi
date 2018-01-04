@@ -173,7 +173,7 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   ```
   sudo ir-keytable -t    # Test remote
   sudo ir-keytable       # Provides information about remote
-  ir-keytable -t -d /dev/input/event4   #Similar to the 'Test Remote' but use information gained from above command
+  sudo ir-keytable -t -d /dev/input/event4   #Similar to the 'Test Remote' but use information gained from above command
   
   ```
   Copy existing keymap, and edit that:
@@ -202,18 +202,18 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   KEY_F10 # was KEY_VOLUMEDOWN 
   KEY_UP # was KEY_CHANNELUP 
   KEY_DOWN # was KEY_CHANNELDOWN 
-  KEY_RIGHT # was KEY_FASTFORWARD 
-  KEY_LEFT # was KEY_REWIND 
-  KEY_P # was KEY_PLAY 
-  KEY_P # was KEY_PAUSE 
-  KEY_SPACE # was KEY_STOP 
+  KEY_F # was KEY_FASTFORWARD 
+  KEY_R # was KEY_REWIND 
+  KEY_SPACE # was KEY_PLAY 
+  KEY_SPACE # was KEY_PAUSE 
+  KEY_X # was KEY_STOP 
   KEY_END # was KEY_NEXT 
   KEY_HOME # was KEY_PREVIOUS 
   KEY_ENTER # was KEY_OK 
   KEY_ESC # was KEY_EXIT 
   KEY_S # was KEY_EPG 
-  KEY_P # was KEY_PLAYPAUSE 
-  KEY_P # was KEY_PLAYPAUSE 
+  KEY_SPACE # was KEY_PLAYPAUSE 
+  KEY_SPACE # was KEY_PLAYPAUSE 
 
   
   Now that we have a keymap file, we want our infra-red receiver device to use it:-
