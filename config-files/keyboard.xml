@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file contains the mapping of keyboard keys to actions within Kodi.              -->
+<!--                                                                                      -->
+<!-- The format is:                                                                       -->
+<!--  <window>                                                                            -->
+<!--    <device>                                                                          -->
+<!--      <button>action</button>                                                         -->
+<!--    </device>                                                                         -->
+<!--  </window>                                                                           -->
+<!--                                                                                      -->
+<!-- The <global> section is a fall through - they will only be used if the button is     -->
+<!-- not used in the current window's section.                                            -->
+<!--                                                                                      -->
+<!-- Actions can be built-in functions.                                                   -->
+<!--  eg <B>ActivateWindow(Music)</B>                                                     -->
+<!-- would automatically go to Music on the press of the B button.                        -->
+<!--                                                                                      -->
+<!--  Long presses                                                                        -->
+<!--   A limitation is that if a single press is mapped in a section, a global "longpress"-->
+<!--   will be ignored. The workaround is to duplicate the long mapping in the section.   -->
+<!--                                                                                      -->
+<!-- An empty action removes the corresponding mapping from default and parent keymaps.   -->
+<!-- This is different from a "noop" action, which disables a button.                     -->
+<!--                                                                                      -->
+<!-- More documentation on keymaps can be found on http://kodi.wiki/view/keymaps          -->
+<keymap>
+  <global>
+    <keyboard>
+      <x>Stop</x>
+      <d>Stop</d>
+      <pageup>PageUp</pageup>
+      <G>PageUp</G>
+      <pagedown>PageDown</pagedown>
+      <H>PageDown</H>
+    </keyboard>
+  </global>
+</keymap>
