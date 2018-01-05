@@ -181,39 +181,14 @@ Now that the OS is installed it's time to install everything else we need.- Upda
   sudo cp /lib/udev/rc_keymaps/rc6_mce /etc/rc_keymaps/my_rc6_mce
   sudo nano /etc/rc_keymaps/my_rc6_mce
   ```
+  Or use the one from github:
+  ```
+  sudo cp /home/kodi/Downloads/my_rc6_mce /etc/rc_keymaps/my_rc6_mce
+  cp /home/kodi/Downloads/keyboard.xml /home/kodi/.kodi/userdata/keymaps/keyboard.xml
+  ```
   
-  Change these mappings:
   
-  KEY_0 # was KEY_NUMERIC_0 
-  KEY_1 # was KEY_NUMERIC_1 
-  KEY_2 # was KEY_NUMERIC_2 
-  KEY_3 # was KEY_NUMERIC_3 
-  KEY_4 # was KEY_NUMERIC_4 
-  KEY_5 # was KEY_NUMERIC_5 
-  KEY_6 # was KEY_NUMERIC_6 
-  KEY_7 # was KEY_NUMERIC_7 
-  KEY_8 # was KEY_NUMERIC_8 
-  KEY_9 # was KEY_NUMERIC_9 
-  KEY_BACKSPACE # was KEY_DELETE 
-  KEY_M # was KEY_MEDIA 
-  KEY_F9 # was KEY_MUTE 
-  KEY_I # was KEY_INFO 
-  KEY_F11 # was KEY_VOLUMEUP 
-  KEY_F10 # was KEY_VOLUMEDOWN 
-  KEY_UP # was KEY_CHANNELUP 
-  KEY_DOWN # was KEY_CHANNELDOWN 
-  KEY_F # was KEY_FASTFORWARD 
-  KEY_R # was KEY_REWIND 
-  KEY_SPACE # was KEY_PLAY 
-  KEY_SPACE # was KEY_PAUSE 
-  KEY_X # was KEY_STOP 
-  KEY_END # was KEY_NEXT 
-  KEY_HOME # was KEY_PREVIOUS 
-  KEY_ENTER # was KEY_OK 
-  KEY_ESC # was KEY_EXIT 
-  KEY_S # was KEY_EPG 
-  KEY_SPACE # was KEY_PLAYPAUSE 
-  KEY_SPACE # was KEY_PLAYPAUSE 
+
 
   
   Now that we have a keymap file, we want our infra-red receiver device to use it:-
