@@ -65,6 +65,10 @@ Burn the ISO to a DVD or use a tool like  [UNetBootIn](https://unetbootin.github
     '''
     sudo nano /etc/netplan/01-netcfg.yaml
     '''
+    or
+    '''
+    sudo cp /home/kodi/Downloads/01-netcfg.yamlc /etc/netplan/01-netcfg.yaml 
+    '''
     
   - Identify card name
     ```
