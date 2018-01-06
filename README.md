@@ -60,8 +60,7 @@ Burn the ISO to a DVD or use a tool like  [UNetBootIn](https://unetbootin.github
       - `OpenSSH Server`
 
 ## Get wireless working
-    its all NetPlan now!
-    
+    Ubuntu 17.10 - its all NetPlan now!
     '''
     sudo nano /etc/netplan/01-netcfg.yaml
     '''
@@ -70,6 +69,7 @@ Burn the ISO to a DVD or use a tool like  [UNetBootIn](https://unetbootin.github
     sudo cp /home/kodi/Downloads/01-netcfg.yamlc /etc/netplan/01-netcfg.yaml 
     '''
     
+    Ubuntu 16.04:
   - Identify card name
     ```
     iwconfig
@@ -216,10 +216,6 @@ Now that the OS is installed it's time to install everything else we need.- Upda
 
 ## OpenVPN
 
-- Add the Network Manager Icon and stuff
-  ```
-  sudo apt-get install indicator-applet indicator-network
-  ```
 - Install openvpn
   ```
   sudo apt-get install network-manager-openvpn-gnome
